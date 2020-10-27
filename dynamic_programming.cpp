@@ -146,14 +146,14 @@ int dyn_optimum_repartition(std::vector<int> word_length, int line_width)
     }
     std::vector<int> c;
     c.emplace_back(0);
-    for (int i=0; i < word_length.size(); i++)
+    for (int i=0; i < word_length.size()-1; i++)
     {
         int c_temp = std::numeric_limits<int>::max();
-        for (int j=0 ; j < i ; j++)
+        for (int j=0 ; j < i+1 ; j++)
         {
             if (matrix[i-j][j] > line_width)
                 continue;
-            int cout = c[i-j-1]+(line_width - matrix[i-j-1][j])*(line_width - matrix[i-j-1][j]);
+            int cout = c[i-j]+(line_width - matrix[i-j][j])*(line_width - matrix[i-j][j]);
             c_temp = std::min(c_temp, cout);
         }
         c.emplace_back(c_temp);
@@ -161,4 +161,4 @@ int dyn_optimum_repartition(std::vector<int> word_length, int line_width)
 
     return c.back();
 
-}   
+}  
