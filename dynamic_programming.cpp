@@ -128,7 +128,7 @@ int optimum_repartition_deque(std::deque<int> word_length, int line_witdth)
 }
 
 
-int dyn_optimum_repartition(std::vector<int> word_length, int line_witdth)
+int dyn_optimum_repartition(std::vector<int> word_length, int line_width)
 {
 // matrice : mat[i][j] correspond à la longueur des mots entre i et i+j
     std::vector<std::vector<int>> matrix(word_length.size(), std::vector<int> (word_length.size(), std::numeric_limits<int>::max()));
@@ -145,16 +145,16 @@ int dyn_optimum_repartition(std::vector<int> word_length, int line_witdth)
         }
     }
     std::vector<int> c;
-    c[0]=0;
+    c.emplace_back(0);
     for (int i=0; i < word_length.size(); i++)
     {
         int c_temp = std::numeric_limits<int>::max();
         for (int j=0 ; j < i ; j++)
         {
-            if (matrix[i-j][j] > line_witdth)
+            if (matrix[i-j][j] > line_width)
                 continue;
-            int cout = c[i-j-1]+pow(line_witdth - matrix[i-j-1][j], 2);
-            c_temp = std::min(c[i+1], cout);
+            int cout = c[i-j-1]+(line_width - matrix[i-j-1][j])*(line_width - matrix[i-j-1][j]);
+            c_temp = std::min(c_temp, cout);
         }
         c.emplace_back(c_temp);
     }
